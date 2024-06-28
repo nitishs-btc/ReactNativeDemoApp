@@ -10,7 +10,8 @@ interface TextFieldProps {
     enterKeyHint: EnterKeyHintTypeOptions,
     inputMode: InputModeOptions,
     type: TextFieldType,
-    onSubmitAction(value: string, type: TextFieldType): void,
+    onKeyboardSubmitButtonAction(value: string, type: TextFieldType): void,
+    onTextValueChangeAction(value: string, type: TextFieldType): void,
     secureTextEntry: boolean
 }
  
@@ -56,9 +57,12 @@ class TextFieldComponent extends React.Component<TextFieldProps & { forwardedRef
                     enterKeyHint={enterKeyHint}
                     inputMode={inputMode}
                     ref={this.props.forwardedRef}
-                    onChangeText={(value) => this.setState({ textValue: value })}
+                    onChangeText={(value) => {
+                        this.setState({ textValue: value })
+                        this.props.onTextValueChangeAction(value, type)
+                    }}
                     value={this.state.textValue}
-                    onSubmitEditing={() => { this.props.onSubmitAction(this.state.textValue, type) }}
+                    onSubmitEditing={() => { this.props.onKeyboardSubmitButtonAction(this.state.textValue, type) }}
                     secureTextEntry={secureTextEntry}
                 ></TextInput>
             </View>

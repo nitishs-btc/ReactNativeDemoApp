@@ -8,18 +8,19 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { appStyles } from "./AppStyle";
-import CustomButton from "./Components/CustomButton";
-import TextField from "./Components/TextField";
-import { TextFieldType } from "./Helper/TextFieldType";
+import { loginScreenStyles } from "./LoginScreenStyles";
+import CustomButton from "../Components/CustomButton";
+import TextField from "../Components/TextField";
+import { TextFieldType } from "../Helper/TextFieldType";
 
-interface AppViewProps {
-  onSubmitAction(value: string, type: TextFieldType): void;
+interface LoginScreenViewProps {
+  onKeyboardSubmitButtonAction(value: string, type: TextFieldType): void;
+  onTextValueChangeAction(value: string, type: TextFieldType): void;
   onLoginAction(): void;
 }
 
-class AppView extends React.Component<
-  AppViewProps & { forwardedRef: Ref<TextInput> }
+class LoginScreenView extends React.Component<
+LoginScreenViewProps & { forwardedRef: Ref<TextInput> }
 > {
   render() {
     return (
@@ -33,11 +34,13 @@ class AppView extends React.Component<
           "#00C6B74D",
         ]}>
         <ImageBackground
-          source={require("./assets/background_image.png")}
+          source={require("../assets/background_image.png")}
           style={{ width: "100%", height: "100%" }}>
-          <ScrollView automaticallyAdjustKeyboardInsets={true}>
+          <ScrollView
+            automaticallyAdjustKeyboardInsets={true}
+            keyboardShouldPersistTaps="never">
             <Image
-              source={require("./assets/thom_logo.png")}
+              source={require("../assets/thom_logo.png")}
               style={{ alignSelf: "center", marginTop: 120 }}
             />
 
@@ -56,11 +59,12 @@ class AppView extends React.Component<
             <TextField
               placeholderText="Email Id"
               borderColorOnActive="#00C6B7"
-              viewStyleSheet={appStyles.textViewStyleSheet}
+              viewStyleSheet={loginScreenStyles.textViewStyleSheet}
               defaultBorderColor="#FFFFFF"
               enterKeyHint="next"
               inputMode="email"
-              onSubmitAction={this.props.onSubmitAction}
+              onKeyboardSubmitButtonAction={this.props.onKeyboardSubmitButtonAction}
+              onTextValueChangeAction={this.props.onTextValueChangeAction}
               ref={null}
               secureTextEntry={false}
               type={TextFieldType.Email}
@@ -70,20 +74,21 @@ class AppView extends React.Component<
               ref={this.props.forwardedRef}
               placeholderText="Password"
               borderColorOnActive="#00C6B7"
-              viewStyleSheet={appStyles.textViewStyleSheet}
+              viewStyleSheet={loginScreenStyles.textViewStyleSheet}
               defaultBorderColor="#FFFFFF"
               enterKeyHint="done"
               inputMode="text"
-              onSubmitAction={this.props.onSubmitAction}
+              onKeyboardSubmitButtonAction={this.props.onKeyboardSubmitButtonAction}
+              onTextValueChangeAction={this.props.onTextValueChangeAction}
               secureTextEntry={true}
               type={TextFieldType.Password}
             />
 
             <CustomButton
-              viewStyleSheet={appStyles.buttonStyle}
+              viewStyleSheet={loginScreenStyles.buttonStyle}
               isActive={true}
               onLoginAction={this.props.onLoginAction}
-              textStyleSheet={appStyles.buttonTextStyle}
+              textStyleSheet={loginScreenStyles.buttonTextStyle}
             />
 
             <StatusBar style="light" />
@@ -94,6 +99,6 @@ class AppView extends React.Component<
   }
 }
 
-export const AppViewComp = forwardRef<TextInput, AppViewProps>((props, ref) => {
-  return <AppView {...props} forwardedRef={ref} />;
+export const LoginScreenViewComp = forwardRef<TextInput, LoginScreenViewProps>((props, ref) => {
+  return <LoginScreenView {...props} forwardedRef={ref} />;
 });

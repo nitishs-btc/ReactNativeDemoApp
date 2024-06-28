@@ -1,42 +1,33 @@
-import { TextInput } from 'react-native';
-import { createRef, useState } from 'react';
-import { TextFieldType } from './Helper/TextFieldType';
-import { AppViewComp } from './AppView';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import LoginScreen from './Login/LoginScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ProfileView from './ProfileView';
 
+type RootStackParamList = {
+  LoginScreen: undefined;
+  ProfileView: { data: any };
+};
 
+const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
-
-  let textInputRef = createRef<TextInput>();
-
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-
-  function nextButtonAction() {
-    textInputRef.current?.focus()
-  }
-
-  function enterButtonAction() { 
-    console.log('This button called')
-  }
-
-  const getValueFromTextField = (value: string, type: TextFieldType): void => { 
-
-    switch (type) { 
-      case TextFieldType.Email:
-        console.log('this get called')
-        setEmail(value)
-        nextButtonAction()
-        return
-      case TextFieldType.Password:
-        setPassword(value)
-        enterButtonAction()
-        return
-      case TextFieldType.Phone, TextFieldType.Firstname, TextFieldType.Secondname, TextFieldType.Name:
-        return
-    }
-  }
-
   return (
-    <AppViewComp onLoginAction={enterButtonAction} onSubmitAction={getValueFromTextField} ref={textInputRef}/>
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName='Login'>
+    //     <Stack.Screen name='Login' component={LoginScreen} />
+    //     <Stack.Screen name='Profile' component={ProfileView} initialParams={data} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <LoginScreen/>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
